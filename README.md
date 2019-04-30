@@ -1,4 +1,4 @@
-# Saber-CORS
+# CORS
 A vendor plugin for [Saber](https://github.com/Datasilk/Saber) that handles cross-origin requests.
 
 ### Prerequisites
