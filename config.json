@@ -1,0 +1,8 @@
+{
+  "origins": {
+    "development": [
+      "chrome-exteions://kdcpigikfhpokfbbklgdeeheajkndiam"
+    ],
+    "production": []
+  }
+}
