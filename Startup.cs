@@ -1,55 +1,60 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-public partial class Startup : Datasilk.Startup
+namespace Saber.Vendor.CORS
 {
-
-    partial void ConfigureVendorServices(IServiceCollection services)
+    public class Startup : IVendorStartup
     {
-        services.AddCors();
-    }
-
-    partial void ConfigureVendors(IApplicationBuilder app)
-    {
-        ConfigureCORS(app);
-    }
-
-    private void ConfigureCORS(IApplicationBuilder app)
-    {
-        //use CORS for cross-domain requests
-        var config = new ConfigurationBuilder()
-                .AddJsonFile(Server.MapPath("/Vendor/CORS/config.json"))
-                .AddEnvironmentVariables().Build();
-
-        var origins = new string[] { };
-
-        switch (Server.environment)
+        public void ConfigureServices(IServiceCollection services)
         {
-            case Server.Environment.development:
-                origins = config.GetSection("origins:development").Get<string[]>();
-                break;
-            case Server.Environment.production:
-                origins = config.GetSection("origins:production").Get<string[]>();
-                break;
-            case Server.Environment.staging:
-                origins = config.GetSection("origins:staging").Get<string[]>();
-                break;
+            services.AddCors();
         }
 
-        app.UseCors(builder =>
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfigurationRoot config)
         {
-            builder.WithOrigins(
-                "chrome-extension://" +
-                (
-                    Server.environment == Server.Environment.development ?
-                    "kdcpigikfhpokfbbklgdeeheajkndiam" :  //development
-                    "" //production
+            //use CORS for cross-domain requests
+            ConfigureCORS(app);
+        }
+
+        private void ConfigureCORS(IApplicationBuilder app)
+        {
+            //use CORS for cross-domain requests
+            var config = new ConfigurationBuilder()
+                    .AddJsonFile(Server.MapPath("/Vendor/CORS/config.json"))
+                    .AddEnvironmentVariables().Build();
+
+            var origins = new string[] { };
+
+            switch (Server.environment)
+            {
+                case Server.Environment.development:
+                    origins = config.GetSection("origins:development").Get<string[]>();
+                    break;
+                case Server.Environment.production:
+                    origins = config.GetSection("origins:production").Get<string[]>();
+                    break;
+                case Server.Environment.staging:
+                    origins = config.GetSection("origins:staging").Get<string[]>();
+                    break;
+            }
+
+            app.UseCors(builder =>
+            {
+                builder.WithOrigins(
+                    "chrome-extension://" +
+                    (
+                        Server.environment == Server.Environment.development ?
+                        "kdcpigikfhpokfbbklgdeeheajkndiam" :  //development
+                        "" //production
+                    )
                 )
-            )
-            .WithHeaders("GET", "POST", "OPTIONS")
-            .WithHeaders("*")
-            .AllowCredentials();
-        });
+                .WithHeaders("GET", "POST", "OPTIONS")
+                .WithHeaders("*")
+                .AllowCredentials();
+            });
+        }
     }
 }

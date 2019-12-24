@@ -1,8 +1,10 @@
 {
   "origins": {
     "development": [
-      "chrome-exteions://kdcpigikfhpokfbbklgdeeheajkndiam"
+      "chrome-extensions://kdcpigikfhpokfbbklgdeeheajkndiam"
     ],
-    "production": []
+    "production": [
+      "chrome-extensions://dohpjmglnindkckngjahkffgoibjpbfj"
+    ]
   }
 }
