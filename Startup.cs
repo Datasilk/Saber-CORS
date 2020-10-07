@@ -23,8 +23,7 @@ namespace Saber.Vendor.CORS
         {
             //use CORS for cross-domain requests
             var config = new ConfigurationBuilder()
-                    .AddJsonFile(Server.MapPath("/Vendor/CORS/config.json"))
-                    .AddEnvironmentVariables().Build();
+                    .AddJsonFile(Server.MapPath("/Vendor/CORS/config.json")).Build();
 
             var origins = new string[] { };
 
@@ -41,16 +40,11 @@ namespace Saber.Vendor.CORS
                     break;
             }
 
+            Console.WriteLine("found CORS origins: " + string.Join("; ", origins));
+
             app.UseCors(builder =>
             {
-                builder.WithOrigins(
-                    "chrome-extension://" +
-                    (
-                        Server.environment == Server.Environment.development ?
-                        "kdcpigikfhpokfbbklgdeeheajkndiam" :  //development
-                        "" //production
-                    )
-                )
+                builder.WithOrigins(origins)
                 .WithHeaders("GET", "POST", "OPTIONS")
                 .WithHeaders("*")
                 .AllowCredentials();
