@@ -23,19 +23,19 @@ namespace Saber.Vendor.CORS
         {
             //use CORS for cross-domain requests
             var config = new ConfigurationBuilder()
-                    .AddJsonFile(Server.MapPath("/Vendor/CORS/config.json")).Build();
+                    .AddJsonFile(App.MapPath("/Vendors/CORS/config.json")).Build();
 
             var origins = new string[] { };
 
-            switch (Server.environment)
+            switch (App.Environment)
             {
-                case Server.Environment.development:
+                case Environment.development:
                     origins = config.GetSection("origins:development").Get<string[]>();
                     break;
-                case Server.Environment.production:
+                case Environment.production:
                     origins = config.GetSection("origins:production").Get<string[]>();
                     break;
-                case Server.Environment.staging:
+                case Environment.staging:
                     origins = config.GetSection("origins:staging").Get<string[]>();
                     break;
             }
