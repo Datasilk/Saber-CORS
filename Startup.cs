@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,29 +27,45 @@ namespace Saber.Vendor.CORS
                     .AddJsonFile(App.MapPath("/Vendors/CORS/config.json")).Build();
 
             var origins = new string[] { };
-
-            switch (App.Environment)
+            var section = "";
+            try
             {
-                case Environment.development:
-                    origins = config.GetSection("origins:development").Get<string[]>();
-                    break;
-                case Environment.production:
-                    origins = config.GetSection("origins:production").Get<string[]>();
-                    break;
-                case Environment.staging:
-                    origins = config.GetSection("origins:staging").Get<string[]>();
-                    break;
+                switch (App.Environment)
+                {
+                    case Environment.development:
+                        section = "origins:development";
+                        break;
+                    case Environment.production:
+                        section = "origins:production";
+                        break;
+                    case Environment.staging:
+                        section = "origins:staging";
+                        break;
+                }
+
+                origins = config.GetSection(section).Get<string[]>().Where(a => a != "").ToArray();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("configuration section " + section + " does not contain any values in /Vendors/CORS/config.json");
             }
 
-            Console.WriteLine("found CORS origins: " + string.Join("; ", origins));
-
-            app.UseCors(builder =>
+            if(origins.Length > 0)
             {
-                builder.WithOrigins(origins)
-                .WithHeaders("GET", "POST", "OPTIONS")
-                .WithHeaders("*")
-                .AllowCredentials();
-            });
+                Console.WriteLine("found CORS origins: " + string.Join("; ", origins));
+
+                app.UseCors(builder =>
+                {
+                    builder.WithOrigins(origins)
+                    .WithHeaders("GET", "POST", "OPTIONS")
+                    .WithHeaders("*")
+                    .AllowCredentials();
+                });
+            }
+            else
+            {
+                Console.WriteLine("No CORS origins defined for " + section);
+            }
         }
     }
 }

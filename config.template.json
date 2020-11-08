@@ -1,7 +1,7 @@
 {
   "origins": {
-    "development": [],
-    "staging": [],
-    "production": []
+    "development": [""],
+    "staging": [""],
+    "production": [""]
   }
 }
