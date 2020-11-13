@@ -1,6 +1,6 @@
 {
   "origins": {
-    "development": [""],
+    "development": ["http://localhost:7070"],
     "staging": [""],
     "production": [""]
   }
