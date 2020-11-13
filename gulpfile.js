@@ -1,5 +1,5 @@
 var gulp = require('gulp'),
-    rename = require('gulp-rename'),np
+    rename = require('gulp-rename'),
     sevenBin = require('7zip-bin'),
     sevenZip = require('node-7z');
 
@@ -8,7 +8,14 @@ var release = 'bin/Release/net5.0/';
 var publish = 'bin/Publish/';
 
 function publishToPlatform(platform) {
-    gulp.src(release + platform + '/publish/*')
+    gulp.src([
+        //include all files from published folder
+        release + platform + '/publish/*',
+        //exclude unwanted dependencies
+        '!' + release + platform + '/publish/Core.dll',
+        '!' + release + platform + '/publish/Saber.Core.dll',
+        '!' + release + platform + '/publish/Saber.Vendor.dll',
+        '!' + release + platform + '/publish/*.deps.json'])
         .pipe(gulp.dest(publish + '/' + platform + '/' + app, { overwrite: true }));
     //copy & rename config file
     gulp.src('config.template.json')
