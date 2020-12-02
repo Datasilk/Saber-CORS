@@ -4,8 +4,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Saber.Vendor;
 
-namespace Saber.Vendor.CORS
+namespace Saber.Vendors.CORS
 {
     public class Startup : IVendorStartup
     {
