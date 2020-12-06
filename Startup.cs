@@ -24,8 +24,14 @@ namespace Saber.Vendors.CORS
         private void ConfigureCORS(IApplicationBuilder app)
         {
             //use CORS for cross-domain requests
+            var file = App.MapPath("/Vendors/CORS/config.json");
+            if (!System.IO.File.Exists(file))
+            {
+                Console.WriteLine("You must copy, rename, then modify \"/Vendors/CORS/config.template.json\" to \"/Vendors/CORS/config.json\" and restart Saber to use CORS.");
+                return;
+            }
             var config = new ConfigurationBuilder()
-                    .AddJsonFile(App.MapPath("/Vendors/CORS/config.json")).Build();
+                    .AddJsonFile(file).Build();
 
             var origins = new string[] { };
             var section = "";

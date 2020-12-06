@@ -11,7 +11,7 @@ A vendor plugin for [Saber](https://saber.datasilk.io) that handles cross-origin
 * Copy `/App/Vendor/CORS/config.template.json` to `/App/Vendors/CORS/config.json` and open the file for modification
 	* Add at least one URL to the `origins:development` array, e.g. `"https://localhost:7070"`
     * Add at least one URL to the `origins:production` array, e.g. `"https://www.mycoolsite.io"`
-* Run `gulp default`
+* Run `gulp vendors` from the root of your Saber project folder
 
 #### For DevOps Users
 While using the latest release of Saber, do the following:
