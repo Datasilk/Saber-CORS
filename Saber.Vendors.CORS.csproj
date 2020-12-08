@@ -1,8 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>Saber.Vendor.CORS</RootNamespace>
-    <AssemblyName>Saber.Vendor.CORS</AssemblyName>
+    <RootNamespace>Saber.Vendors.CORS</RootNamespace>
+    <AssemblyName>Saber.Vendors.CORS</AssemblyName>
     <Authors>Mark Entingh</Authors>
     <Company>Datasilk</Company>
     <Description>A vendor plugin for Saber (https://saber.datasilk.io/saber) that enables CORS (Cross-Origin Resource Sharing) headers in Saber</Description>
